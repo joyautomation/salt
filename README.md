@@ -1,2 +1,2 @@
 # salt
-Joy Automation 
+Joy Automation Component Library
