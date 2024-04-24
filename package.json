@@ -21,7 +21,8 @@
 				"svelte": "./dist/index.js"
 			}
 		],
-		"./styles.scss": "./dist/styles/main.scss"
+		"./styles.scss": "./dist/styles/main.scss",
+		"./icons": "./dist/components/icons/index.js"
 	},
 	"files": [
 		"dist",
