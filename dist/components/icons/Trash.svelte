@@ -1,4 +1,4 @@
-<script>export let size = "1rem";
+<script lang="ts">export let size = "1rem";
 </script>
 
 <svg
