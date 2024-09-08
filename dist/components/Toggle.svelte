@@ -1,4 +1,4 @@
-<script>import { enhance } from "$app/forms";
+<script lang="ts">import { enhance } from "$app/forms";
 export let id;
 export let checked = false;
 export let name;

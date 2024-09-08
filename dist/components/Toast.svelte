@@ -1,4 +1,4 @@
-<script>import { page } from "$app/stores";
+<script lang="ts">import { page } from "$app/stores";
 import { notifications, addNotification } from "../stores/notifications.js";
 import { slide } from "svelte/transition";
 let notifications_value;

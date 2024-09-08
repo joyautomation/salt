@@ -1,4 +1,4 @@
-<script>import { enhance } from "$app/forms";
+<script lang="ts">import { enhance } from "$app/forms";
 import Moon from "./icons/Moon.svelte";
 import Sun from "./icons/Sun.svelte";
 export let theme;
