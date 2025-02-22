@@ -30,4 +30,5 @@ export function addNotification(notification: NotificationInput) {
   setTimeout(() => {
     notifications.current = notifications.current.filter((n) => n.id !== id)
   }, 5000)
+  return id
 }
