@@ -1,3 +1,18 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+	import { enhance } from '$app/forms'
+	import Toast from '$lib/components/Toast.svelte'
+</script>
+
+<form method="post" action="?/click" use:enhance>
+	<button>Click me</button>
+</form>
+<Toast />
+
+<style>
+	button {
+		background-color: var(--color-primary);
+		color: var(--color-white);
+		padding: 1rem 2rem;
+		border-radius: 0.5rem;
+	}
+</style>
