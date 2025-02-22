@@ -1,21 +1,22 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { notifications, type Notification, addNotification } from '$lib/stores/notifications.js';
-	import { slide } from 'svelte/transition';
+	import { page } from '$app/stores'
+	import {
+		notifications,
+		type Notification,
+		addNotification
+	} from '$lib/state/notifications.svelte.js'
+	import { slide } from 'svelte/transition'
 
-	let notifications_value: Notification[];
-
-	$: if ($page.form && $page.form?.message) {
-		addNotification($page.form);
-	}
-
-	notifications.subscribe((value) => {
-		notifications_value = value;
-	});
+	let queue = $derived(notifications.current)
+	$effect(() => {
+		if ($page.form && $page.form?.message) {
+			addNotification($page.form)
+		}
+	})
 </script>
 
 <div class="toast">
-	{#each notifications_value as notification}
+	{#each queue as notification}
 		<div
 			class:toast--success={notification.type === 'success'}
 			class:toast--error={notification.type === 'error'}

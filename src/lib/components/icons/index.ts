@@ -15,3 +15,4 @@ export { default as Trash } from "./Trash.svelte";
 export { default as WrenchScrewdriver } from "./WrenchScrewdriver.svelte";
 export { default as Xmark } from "./Xmark.svelte";
 export { default as Minus } from "./Minus.svelte";
+export { default as Bars } from "./Bars.svelte";
