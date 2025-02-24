@@ -1,13 +1,13 @@
-@import './preflight.scss';
-@import './spacing.scss';
-@import './colors.scss';
-@import './layout.scss';
-@import './shadow.scss';
-@import './rounded.scss';
-@import './text.scss';
-@import './buttons.scss';
-@import './themes.scss';
-@import './form.scss';
+@use './preflight.scss';
+@use './spacing.scss';
+@use './colors.scss';
+@use './layout.scss';
+@use './shadow.scss';
+@use './rounded.scss';
+@use './text.scss';
+@use './buttons.scss';
+@use './themes.scss';
+@use './form.scss';
 
 body {
   font-family: var(--theme-font-basic);
