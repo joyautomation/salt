@@ -1,3 +1,5 @@
+@use 'sass:meta';
+
 $themes: (
   "themeLight": (
     "theme-font-basic": "'Space Grotesk', sans-serif",
@@ -80,7 +82,7 @@ $themes: (
     @each $property, $value in $theme-map {
 
       // Check if the value is a nested map (like for 'neutral')
-      @if (type-of($value)=='map') {
+      @if (meta.type-of($value)=='map') {
         @each $nested-key, $nested-value in $value {
           --#{$property}-#{$nested-key}: #{$nested-value};
         }
