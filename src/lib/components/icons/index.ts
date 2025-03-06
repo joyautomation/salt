@@ -16,3 +16,5 @@ export { default as WrenchScrewdriver } from "./WrenchScrewdriver.svelte";
 export { default as Xmark } from "./Xmark.svelte";
 export { default as Minus } from "./Minus.svelte";
 export { default as Bars } from "./Bars.svelte";
+export { default as CheckCircle } from "./CheckCircle.svelte";
+export { default as Xcircle } from "./Xcircle.svelte";
