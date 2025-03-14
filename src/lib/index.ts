@@ -4,3 +4,4 @@ export { default as Toggle } from "./components/Toggle.svelte";
 export { default as ThemeButton } from "./components/ThemeButton.svelte";
 export { default as Toast } from "./components/Toast.svelte";
 export * as icons from "./components/icons/index.js";
+export * as state from "./state/notifications.svelte";

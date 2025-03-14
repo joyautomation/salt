@@ -1,21 +1,24 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { notifications, type Notification, addNotification } from '$lib/stores/notifications.js';
-	import { slide } from 'svelte/transition';
+	import { page } from '$app/state'
+	import { notifications, addNotification } from '$lib/state/notifications.svelte'
+	import { slide } from 'svelte/transition'
 
-	let notifications_value: Notification[];
+	let lastProcessedTime = 0
 
-	$: if ($page.form && $page.form?.message) {
-		addNotification($page.form);
-	}
-
-	notifications.subscribe((value) => {
-		notifications_value = value;
-	});
+	$effect(() => {
+		const formData = page.form
+		const now = Date.now()
+		// Only process if we have new form data with a message
+		// and enough time has passed since the last notification (e.g., 50ms)
+		if (formData?.message && now - lastProcessedTime > 50) {
+			lastProcessedTime = now
+			addNotification(formData)
+		}
+	})
 </script>
 
 <div class="toast">
-	{#each notifications_value as notification}
+	{#each notifications.current as notification}
 		<div
 			class:toast--success={notification.type === 'success'}
 			class:toast--error={notification.type === 'error'}

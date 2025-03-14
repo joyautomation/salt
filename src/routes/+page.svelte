@@ -1,3 +1,10 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+	import '$lib/styles/main.scss'
+	import { enhance } from '$app/forms'
+	import Toast from '$lib/components/Toast.svelte'
+</script>
+
+<form class="m-10 flex align-center" method="post" action="?/click" use:enhance>
+	<button class="button--primary">Click me</button>
+</form>
+<Toast />

@@ -15,4 +15,10 @@ export { default as Trash } from "./Trash.svelte";
 export { default as WrenchScrewdriver } from "./WrenchScrewdriver.svelte";
 export { default as Xmark } from "./Xmark.svelte";
 export { default as Minus } from "./Minus.svelte";
+<<<<<<< HEAD
 export { default as ShoppingCart } from "./ShoppingCart.svelte";
+=======
+export { default as Bars } from "./Bars.svelte";
+export { default as CheckCircle } from "./CheckCircle.svelte";
+export { default as Xcircle } from "./Xcircle.svelte";
+>>>>>>> 1ca985036f304f0f1f8beea7748c61bd636e17fe
