@@ -6,3 +6,5 @@ export { default as Toast } from "./components/Toast.svelte";
 export { default as Icon } from "./components/Icon.svelte";
 export * as icons from "./components/icons/index.js";
 export * as state from "./state/notifications.svelte";
+export { default as ThemeSwitch } from "./components/ThemeSwitch.svelte";
+export { themeState, getEffectiveTheme, type Theme } from "./theme.svelte";

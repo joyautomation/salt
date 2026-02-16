@@ -1,4 +1,5 @@
 @use "sass:meta";
+@use "sass:map";
 
 $themes: (
   "themeLight": (
@@ -127,19 +128,32 @@ $themes: (
   ),
 );
 
-@each $theme-name, $theme-map in $themes {
-  // Create a class for the theme
-  .#{$theme-name} {
-    // Iterate over each property in the theme map
-    @each $property, $value in $theme-map {
-      // Check if the value is a nested map (like for 'neutral')
-      @if (meta.type-of($value) == "map") {
-        @each $nested-key, $nested-value in $value {
-          --#{$property}-#{$nested-key}: #{$nested-value};
-        }
-      } @else {
-        --#{$property}: #{$value};
+@mixin apply-theme($theme-map) {
+  @each $property, $value in $theme-map {
+    @if (meta.type-of($value) == "map") {
+      @each $nested-key, $nested-value in $value {
+        --#{$property}-#{$nested-key}: #{$nested-value};
       }
+    } @else {
+      --#{$property}: #{$value};
     }
+  }
+}
+
+@each $theme-name, $theme-map in $themes {
+  .#{$theme-name} {
+    @include apply-theme($theme-map);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .themeSystem {
+    @include apply-theme(map.get($themes, "themeLight"));
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .themeSystem {
+    @include apply-theme(map.get($themes, "themeDark"));
   }
 }
