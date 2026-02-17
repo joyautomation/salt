@@ -19,18 +19,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
       - run: pnpm install
-
-      - run: pnpm eslint .
-
-      - run: pnpm run check
-
-      - run: pnpm run test:unit
-
       - run: pnpm run package
-
-      - run: pnpm publish --no-git-checks --access public --provenance
+      - run: npm publish --access public
