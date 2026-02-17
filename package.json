@@ -62,6 +62,10 @@
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joyautomation/salt"
+  },
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "@sveltejs/adapter-node": "^5.2.12",
