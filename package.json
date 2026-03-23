@@ -1,6 +1,6 @@
 {
   "name": "@joyautomation/salt",
-  "version": "0.0.29",
+  "version": "0.1.0",
   "scripts": {
     "generate:icons": "node scripts/generate-icons.js",
     "dev": "vite dev",
