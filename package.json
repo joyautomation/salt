@@ -2,6 +2,7 @@
   "name": "@joyautomation/salt",
   "version": "0.0.29",
   "scripts": {
+    "generate:icons": "node scripts/generate-icons.js",
     "dev": "vite dev",
     "build": "vite build && npm run package",
     "preview": "vite preview",
@@ -22,7 +23,9 @@
       }
     ],
     "./styles.scss": "./dist/styles/main.scss",
-    "./icons": "./dist/components/icons/index.js"
+    "./icons": "./dist/components/icons/index.js",
+    "./icons/outline": "./dist/components/icons/outline/index.js",
+    "./icons/solid": "./dist/components/icons/solid/index.js"
   },
   "files": [
     "dist",

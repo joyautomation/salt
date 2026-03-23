@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
-  import Moon from './icons/Moon.svelte'
-  import Sun from './icons/Sun.svelte'
+  import Moon from './icons/outline/Moon.svelte'
+  import Sun from './icons/outline/Sun.svelte'
   export let theme: string
   export let action = 'setTheme'
 </script>
