@@ -1,6 +1,8 @@
 import type { Actions } from '@sveltejs/kit'
+import { setTheme } from '$lib/actions.js'
 
 export const actions: Actions = {
+	setTheme,
 	click: async () => {
 		return {
 			message: 'Hello, world!',

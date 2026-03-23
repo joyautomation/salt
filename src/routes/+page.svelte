@@ -1,35 +1,39 @@
 <script lang="ts">
-	import '$lib/styles/main.scss';
-	import { enhance } from '$app/forms';
-	import Toast from '$lib/components/Toast.svelte';
-	import Form from '$lib/components/forms/Form.svelte';
-	import SearchableSelect from '$lib/components/forms/SearchableSelect.svelte';
-	import type { FormInputs } from '$lib/components/forms/types.js';
-	import * as outlineIcons from '$lib/components/icons/outline/index.js';
-	import * as solidIcons from '$lib/components/icons/solid/index.js';
-	import type { Component } from 'svelte';
+	import '$lib/styles/main.scss'
+	import { enhance } from '$app/forms'
+	import Toast from '$lib/components/Toast.svelte'
+	import ThemeButton from '$lib/components/ThemeButton.svelte'
+	import ThemeSwitch from '$lib/components/ThemeSwitch.svelte'
+	import Toggle from '$lib/components/Toggle.svelte'
+	import { themeState, getEffectiveTheme } from '$lib/theme.svelte'
+	import Form from '$lib/components/forms/Form.svelte'
+	import SearchableSelect from '$lib/components/forms/SearchableSelect.svelte'
+	import type { FormInputs } from '$lib/components/forms/types.js'
+	import * as outlineIcons from '$lib/components/icons/outline/index.js'
+	import * as solidIcons from '$lib/components/icons/solid/index.js'
+	import type { Component } from 'svelte'
 
-	const tabs = ['Toast', 'Icons', 'Forms'] as const;
-	let activeTab: (typeof tabs)[number] = $state('Toast');
+	const tabs = ['Theme', 'Toast', 'Icons', 'Forms'] as const
+	let activeTab: (typeof tabs)[number] = $state('Theme')
 
-	type IconEntry = { name: string; component: Component<{ size?: string }> };
+	type IconEntry = { name: string; component: Component<{ size?: string }> }
 	const outlineList: IconEntry[] = Object.entries(outlineIcons).map(([name, component]) => ({
 		name,
 		component: component as Component<{ size?: string }>
-	}));
+	}))
 	const solidList: IconEntry[] = Object.entries(solidIcons).map(([name, component]) => ({
 		name,
 		component: component as Component<{ size?: string }>
-	}));
+	}))
 
-	let iconStyle: 'outline' | 'solid' = $state('outline');
-	let iconSearch = $state('');
-	const iconList = $derived(iconStyle === 'outline' ? outlineList : solidList);
+	let iconStyle: 'outline' | 'solid' = $state('outline')
+	let iconSearch = $state('')
+	const iconList = $derived(iconStyle === 'outline' ? outlineList : solidList)
 	const filteredIcons = $derived(
 		iconSearch.trim() === ''
 			? iconList
 			: iconList.filter((i) => i.name.toLowerCase().includes(iconSearch.toLowerCase()))
-	);
+	)
 
 	const contactInputs: FormInputs = $state([
 		[
@@ -78,16 +82,16 @@
 				validations: [[(v) => v.trim().length === 0, 'Message is required']]
 			}
 		]
-	]);
+	])
 
-	let selectedItem = $state('');
+	let selectedItem = $state('')
 	const searchableOptions = [
 		{ value: 'svelte', label: 'Svelte', sublabel: 'Cybernetically enhanced web apps' },
 		{ value: 'react', label: 'React', sublabel: 'A JavaScript library for building UIs' },
 		{ value: 'vue', label: 'Vue', sublabel: 'The progressive JavaScript framework' },
 		{ value: 'angular', label: 'Angular', sublabel: 'Platform for building mobile & desktop apps' },
 		{ value: 'solid', label: 'SolidJS', sublabel: 'Simple and performant reactivity' }
-	];
+	]
 </script>
 
 <div class="demo">
@@ -106,7 +110,31 @@
 	</nav>
 
 	<div class="tab-content">
-		{#if activeTab === 'Toast'}
+		{#if activeTab === 'Theme'}
+			<section>
+				<h2>Theme Switch</h2>
+				<p>
+					A three-option selector for System, Light, and Dark themes. Changes apply instantly via
+					client-side state.
+				</p>
+				<ThemeSwitch />
+			</section>
+
+			<section>
+				<h2>Theme Button</h2>
+				<p>A single toggle button that switches between light and dark mode via a form action.</p>
+				<ThemeButton theme={getEffectiveTheme()} />
+			</section>
+
+			<section>
+				<h2>Toggle</h2>
+				<p>A toggle switch component with a hidden form input.</p>
+				<div class="toggle-demo">
+					<span>Notifications</span>
+					<Toggle id="notifications" name="notifications" checked={true} />
+				</div>
+			</section>
+		{:else if activeTab === 'Toast'}
 			<section>
 				<h2>Toast Notifications</h2>
 				<p>Click the button to trigger a toast notification via a SvelteKit form action.</p>
@@ -280,5 +308,12 @@
 		p {
 			margin-top: calc(var(--spacing-unit) * 2);
 		}
+	}
+
+	.toggle-demo {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing-unit) * 2);
+		font-size: var(--text-sm);
 	}
 </style>
