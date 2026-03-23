@@ -1,121 +1,121 @@
 <script lang="ts">
-	import ChevronDown from '../icons/outline/ChevronDown.svelte';
+	import ChevronDown from '../icons/outline/ChevronDown.svelte'
 
 	type Option = {
-		value: string;
-		label: string;
-		sublabel?: string;
-	};
+		value: string
+		label: string
+		sublabel?: string
+	}
 
 	type Props = {
-		options: Option[];
-		placeholder?: string;
-		onSelect: (option: Option) => void;
-		disabled?: boolean;
-	};
+		options: Option[]
+		placeholder?: string
+		onSelect: (option: Option) => void
+		disabled?: boolean
+	}
 
-	let { options, placeholder = 'Select...', onSelect, disabled = false }: Props = $props();
+	let { options, placeholder = 'Select...', onSelect, disabled = false }: Props = $props()
 
-	let isOpen = $state(false);
-	let searchQuery = $state('');
-	let highlightedIndex = $state(-1);
-	let inputRef: HTMLInputElement | undefined = $state();
-	let dropdownRef: HTMLDivElement | undefined = $state();
+	let isOpen = $state(false)
+	let searchQuery = $state('')
+	let highlightedIndex = $state(-1)
+	let inputRef: HTMLInputElement | undefined = $state()
+	let dropdownRef: HTMLDivElement | undefined = $state()
 
 	let filteredOptions = $derived(
 		searchQuery.trim() === ''
 			? options
 			: options.filter((opt) => {
-					const query = searchQuery.toLowerCase();
+					const query = searchQuery.toLowerCase()
 					return (
 						opt.label.toLowerCase().includes(query) ||
 						(opt.sublabel && opt.sublabel.toLowerCase().includes(query))
-					);
+					)
 				})
-	);
+	)
 
 	function openDropdown() {
-		if (disabled) return;
-		isOpen = true;
-		highlightedIndex = -1;
-		setTimeout(() => inputRef?.focus(), 0);
+		if (disabled) return
+		isOpen = true
+		highlightedIndex = -1
+		setTimeout(() => inputRef?.focus(), 0)
 	}
 
 	function closeDropdown() {
-		isOpen = false;
-		searchQuery = '';
-		highlightedIndex = -1;
+		isOpen = false
+		searchQuery = ''
+		highlightedIndex = -1
 	}
 
 	function selectOption(option: Option) {
-		onSelect(option);
-		closeDropdown();
+		onSelect(option)
+		closeDropdown()
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (!isOpen) {
 			if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
-				e.preventDefault();
-				openDropdown();
+				e.preventDefault()
+				openDropdown()
 			}
-			return;
+			return
 		}
 
 		switch (e.key) {
 			case 'ArrowDown':
-				e.preventDefault();
-				highlightedIndex = Math.min(highlightedIndex + 1, filteredOptions.length - 1);
-				scrollToHighlighted();
-				break;
+				e.preventDefault()
+				highlightedIndex = Math.min(highlightedIndex + 1, filteredOptions.length - 1)
+				scrollToHighlighted()
+				break
 			case 'ArrowUp':
-				e.preventDefault();
-				highlightedIndex = Math.max(highlightedIndex - 1, 0);
-				scrollToHighlighted();
-				break;
+				e.preventDefault()
+				highlightedIndex = Math.max(highlightedIndex - 1, 0)
+				scrollToHighlighted()
+				break
 			case 'Enter':
-				e.preventDefault();
+				e.preventDefault()
 				if (highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
-					selectOption(filteredOptions[highlightedIndex]);
+					selectOption(filteredOptions[highlightedIndex])
 				}
-				break;
+				break
 			case 'Escape':
-				e.preventDefault();
-				closeDropdown();
-				break;
+				e.preventDefault()
+				closeDropdown()
+				break
 			case 'Tab':
-				closeDropdown();
-				break;
+				closeDropdown()
+				break
 		}
 	}
 
 	function scrollToHighlighted() {
-		if (!dropdownRef || highlightedIndex < 0) return;
-		const items = dropdownRef.querySelectorAll('.searchable-select__option');
-		const item = items[highlightedIndex] as HTMLElement;
+		if (!dropdownRef || highlightedIndex < 0) return
+		const items = dropdownRef.querySelectorAll('.searchable-select__option')
+		const item = items[highlightedIndex] as HTMLElement
 		if (item) {
-			item.scrollIntoView({ block: 'nearest' });
+			item.scrollIntoView({ block: 'nearest' })
 		}
 	}
 
 	function handleClickOutside(e: MouseEvent) {
-		const target = e.target as Node;
+		const target = e.target as Node
 		if (dropdownRef && !dropdownRef.contains(target)) {
-			closeDropdown();
+			closeDropdown()
 		}
 	}
 
 	$effect(() => {
 		if (isOpen) {
-			document.addEventListener('click', handleClickOutside, true);
-			return () => document.removeEventListener('click', handleClickOutside, true);
+			document.addEventListener('click', handleClickOutside, true)
+			return () => document.removeEventListener('click', handleClickOutside, true)
 		}
-	});
+	})
 
 	$effect(() => {
 		if (searchQuery) {
-			highlightedIndex = filteredOptions.length > 0 ? 0 : -1;
+			highlightedIndex = filteredOptions.length > 0 ? 0 : -1
 		}
-	});
+	})
 </script>
 
 <div class="searchable-select" class:searchable-select--disabled={disabled}>

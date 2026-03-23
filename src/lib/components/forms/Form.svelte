@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import Input from './Input.svelte';
-	import Select from './Select.svelte';
-	import type { FormInputs } from './types.js';
-	import { slide } from 'svelte/transition';
+	import { enhance } from '$app/forms'
+	import Input from './Input.svelte'
+	import Select from './Select.svelte'
+	import type { FormInputs } from './types.js'
+	import { slide } from 'svelte/transition'
 
 	const {
 		inputs: propInputs,
@@ -12,29 +12,29 @@
 		onsubmitstart,
 		onsubmitend
 	}: {
-		inputs: FormInputs;
-		action: string;
-		buttonText?: string;
-		onsubmitstart?: () => void;
-		onsubmitend?: () => void;
-	} = $props();
+		inputs: FormInputs
+		action: string
+		buttonText?: string
+		onsubmitstart?: () => void
+		onsubmitend?: () => void
+	} = $props()
 
-	let inputs = $state(propInputs);
-	let submitting = $state(false);
+	let inputs = $state(propInputs)
+	let submitting = $state(false)
 
 	$effect(() => {
-		inputs = propInputs;
-	});
+		inputs = propInputs
+	})
 
 	const valid = $derived(
 		inputs.every((row) =>
 			row.every((input) => {
-				return input.validations.every(([validation, _message]) => {
-					return !validation(input.value, inputs);
-				});
+				return input.validations.every(([validation]) => {
+					return !validation(input.value, inputs)
+				})
 			})
 		)
-	);
+	)
 </script>
 
 <form
@@ -42,13 +42,13 @@
 	method="post"
 	{action}
 	use:enhance={() => {
-		submitting = true;
-		onsubmitstart?.();
+		submitting = true
+		onsubmitstart?.()
 		return async ({ update }) => {
-			submitting = false;
-			onsubmitend?.();
-			update({ reset: false });
-		};
+			submitting = false
+			onsubmitend?.()
+			update({ reset: false })
+		}
 	}}
 >
 	{#each inputs as row}

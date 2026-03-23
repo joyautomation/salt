@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
-	import type { FormInputs, InputProps } from './types.js';
+	import { slide } from 'svelte/transition'
+	import type { FormInputs, InputProps } from './types.js'
 
 	let {
 		id,
@@ -10,12 +10,12 @@
 		validations,
 		inputs,
 		options
-	}: InputProps & { inputs?: FormInputs; options: { value: string; label: string }[] } = $props();
+	}: InputProps & { inputs?: FormInputs; options: { value: string; label: string }[] } = $props()
 	const validationResult = $derived(
-		validations.find(([validation, _message]) => {
-			return validation(value, inputs ?? []);
+		validations.find(([validation]) => {
+			return validation(value, inputs ?? [])
 		})?.[1] || null
-	);
+	)
 </script>
 
 <div class="select-field" class:select-field--invalid={validationResult != null}>
