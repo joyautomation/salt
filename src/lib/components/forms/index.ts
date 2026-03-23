@@ -1,5 +1,6 @@
 export { default as Form } from './Form.svelte'
 export { default as Input } from './Input.svelte'
 export { default as Select } from './Select.svelte'
+export { default as Switch } from './Switch.svelte'
 export { default as SearchableSelect } from './SearchableSelect.svelte'
 export type { InputProps, FormInputs, FormInputsPartial } from './types.js'

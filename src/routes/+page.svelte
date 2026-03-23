@@ -78,6 +78,24 @@
 				value: '',
 				validations: [[(v) => v.trim().length === 0, 'Message is required']]
 			}
+		],
+		[
+			{
+				id: 'subscribe',
+				name: 'subscribe',
+				label: 'Subscribe to updates',
+				type: 'checkbox',
+				value: 'true',
+				validations: []
+			},
+			{
+				id: 'agree',
+				name: 'agree',
+				label: 'I agree to the terms',
+				type: 'checkbox',
+				value: 'false',
+				validations: [[(v) => v !== 'true', 'You must agree to the terms']]
+			}
 		]
 	])
 

@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms'
 	import Input from './Input.svelte'
 	import Select from './Select.svelte'
+	import Switch from './Switch.svelte'
 	import type { FormInputs } from './types.js'
 	import { slide } from 'svelte/transition'
 
@@ -57,6 +58,8 @@
 				<div>
 					{#if input.type === 'select'}
 						<Select {...input} bind:value={input.value} {inputs} options={input.options || []} />
+					{:else if input.type === 'checkbox'}
+						<Switch {...input} bind:value={input.value} {inputs} />
 					{:else}
 						<Input {...input} bind:value={input.value} {inputs} />
 					{/if}
