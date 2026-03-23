@@ -12,6 +12,8 @@ function kebabToPascal(str) {
 function processSvg(svgContent) {
 	return svgContent
 		.replace(/#0F172A/gi, 'currentColor')
+		.replace(/stroke="black"/g, 'stroke="currentColor"')
+		.replace(/fill="black"/g, 'fill="currentColor"')
 		.replace(/\s*width="24"\s*height="24"/, '')
 		.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, '')
 		.replace(
