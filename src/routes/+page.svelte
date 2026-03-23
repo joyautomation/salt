@@ -2,10 +2,7 @@
 	import '$lib/styles/main.scss'
 	import { enhance } from '$app/forms'
 	import Toast from '$lib/components/Toast.svelte'
-	import ThemeButton from '$lib/components/ThemeButton.svelte'
 	import ThemeSwitch from '$lib/components/ThemeSwitch.svelte'
-	import Toggle from '$lib/components/Toggle.svelte'
-	import { themeState, getEffectiveTheme } from '$lib/theme.svelte'
 	import Form from '$lib/components/forms/Form.svelte'
 	import SearchableSelect from '$lib/components/forms/SearchableSelect.svelte'
 	import type { FormInputs } from '$lib/components/forms/types.js'
@@ -117,21 +114,8 @@
 					A three-option selector for System, Light, and Dark themes. Changes apply instantly via
 					client-side state.
 				</p>
-				<ThemeSwitch />
-			</section>
-
-			<section>
-				<h2>Theme Button</h2>
-				<p>A single toggle button that switches between light and dark mode via a form action.</p>
-				<ThemeButton theme={getEffectiveTheme()} />
-			</section>
-
-			<section>
-				<h2>Toggle</h2>
-				<p>A toggle switch component with a hidden form input.</p>
-				<div class="toggle-demo">
-					<span>Notifications</span>
-					<Toggle id="notifications" name="notifications" checked={true} />
+				<div class="theme-switch-demo">
+					<ThemeSwitch />
 				</div>
 			</section>
 		{:else if activeTab === 'Toast'}
@@ -310,10 +294,7 @@
 		}
 	}
 
-	.toggle-demo {
-		display: flex;
-		align-items: center;
-		gap: calc(var(--spacing-unit) * 2);
-		font-size: var(--text-sm);
+	.theme-switch-demo {
+		display: inline-block;
 	}
 </style>
