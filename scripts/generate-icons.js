@@ -46,7 +46,7 @@ for (const style of STYLES) {
 		const component = generateComponent(svgContent);
 
 		writeFileSync(join(outDir, `${name}.svelte`), component);
-		exports.push(`export { default as ${name} } from './${name}.svelte';`);
+		exports.push(`export { default as ${name} } from './${name}.svelte'`);
 	}
 
 	writeFileSync(join(outDir, 'index.ts'), exports.join('\n') + '\n');
@@ -56,10 +56,10 @@ for (const style of STYLES) {
 // Generate combined index that re-exports outline as default (most common usage)
 // and provides named style exports
 const combinedIndex = `// Outline icons (default)
-export * from './outline/index.js';
+export * from './outline/index.js'
 // For style-specific imports:
-//   import { AcademicCap } from '@joyautomation/salt/icons/outline';
-//   import { AcademicCap } from '@joyautomation/salt/icons/solid';
+//   import { AcademicCap } from '@joyautomation/salt/icons/outline'
+//   import { AcademicCap } from '@joyautomation/salt/icons/solid'
 `;
 writeFileSync(join(OUT_DIR, 'index.ts'), combinedIndex);
 
