@@ -9,8 +9,13 @@
 		value = $bindable(''),
 		validations,
 		inputs,
-		options
-	}: InputProps & { inputs?: FormInputs; options: { value: string; label: string }[] } = $props()
+		options,
+		changed = false
+	}: InputProps & {
+		inputs?: FormInputs
+		options: { value: string; label: string }[]
+		changed?: boolean
+	} = $props()
 	const validationResult = $derived(
 		validations.find(([validation]) => {
 			return validation(value, inputs ?? [])
@@ -18,7 +23,11 @@
 	)
 </script>
 
-<div class="select-field" class:select-field--invalid={validationResult != null}>
+<div
+	class="select-field"
+	class:select-field--invalid={validationResult != null}
+	class:select-field--changed={changed}
+>
 	{#if label != null}
 		<label for={id}>{label}</label>
 	{/if}
@@ -62,6 +71,11 @@
 		& > select:focus {
 			outline: none;
 			border-color: var(--theme-primary);
+		}
+	}
+	.select-field--changed {
+		& > select {
+			border-left: solid 3px var(--theme-primary);
 		}
 	}
 	.select-field--invalid {

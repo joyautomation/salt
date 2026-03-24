@@ -12,8 +12,14 @@
 		validations,
 		inputs,
 		touched = false,
+		changed = false,
 		onblur = () => {}
-	}: InputProps & { inputs?: FormInputs; touched?: boolean; onblur?: () => void } = $props()
+	}: InputProps & {
+		inputs?: FormInputs
+		touched?: boolean
+		changed?: boolean
+		onblur?: () => void
+	} = $props()
 	const validationResult = $derived(
 		validations.find(([validation]) => {
 			return validation(value, inputs ?? [])
@@ -21,7 +27,11 @@
 	)
 </script>
 
-<div class="input" class:input--invalid={touched && validationResult != null}>
+<div
+	class="input"
+	class:input--invalid={touched && validationResult != null}
+	class:input--changed={changed}
+>
 	{#if label != null}
 		<label for={id}>{label}</label>
 	{/if}
@@ -72,6 +82,12 @@
 			resize: vertical;
 			min-height: 100px;
 			font-family: inherit;
+		}
+	}
+	.input--changed {
+		& > input,
+		& > textarea {
+			border-left: solid 3px var(--theme-primary);
 		}
 	}
 	.input--invalid {

@@ -5,8 +5,9 @@
 		id,
 		name,
 		label,
-		value = $bindable('false')
-	}: InputProps & { inputs?: FormInputs } = $props()
+		value = $bindable('false'),
+		changed = false
+	}: InputProps & { inputs?: FormInputs; changed?: boolean } = $props()
 
 	const checked = $derived(value === 'true')
 
@@ -22,7 +23,7 @@
 	}
 </script>
 
-<div class="switch-field">
+<div class="switch-field" class:switch-field--changed={changed}>
 	{#if label != null}
 		<label for={id}>{label}</label>
 	{/if}
@@ -55,6 +56,11 @@
 			line-height: var(--text-sm-lh);
 			text-transform: capitalize;
 		}
+	}
+
+	.switch-field--changed {
+		padding-left: calc(var(--spacing-unit) * 1.5);
+		border-left: solid 3px var(--theme-primary);
 	}
 
 	.switch {
