@@ -11,3 +11,8 @@ export type InputProps = {
 
 export type FormInputs = InputProps[][]
 export type FormInputsPartial = (Pick<InputProps, 'name'> & Partial<InputProps>)[][]
+
+export type FormGroup = {
+	heading?: string
+	rows: InputProps[][]
+}

@@ -3,35 +3,39 @@
 	import Input from './Input.svelte'
 	import Select from './Select.svelte'
 	import Switch from './Switch.svelte'
-	import type { FormInputs } from './types.js'
+	import type { FormGroup, FormInputs } from './types.js'
 	import { slide } from 'svelte/transition'
 
 	const {
 		inputs: propInputs,
+		groups: propGroups,
 		action,
 		buttonText = 'Submit',
 		onsubmitstart,
 		onsubmitend
 	}: {
-		inputs: FormInputs
+		inputs?: FormInputs
+		groups?: FormGroup[]
 		action: string
 		buttonText?: string
 		onsubmitstart?: () => void
 		onsubmitend?: () => void
 	} = $props()
 
-	let inputs = $state(propInputs)
+	let groups = $state(propGroups ?? [{ rows: propInputs ?? [] }])
 	let submitting = $state(false)
 
 	$effect(() => {
-		inputs = propInputs
+		groups = propGroups ?? [{ rows: propInputs ?? [] }]
 	})
 
+	const allInputs = $derived(groups.flatMap((g) => g.rows))
+
 	const valid = $derived(
-		inputs.every((row) =>
+		allInputs.every((row) =>
 			row.every((input) => {
 				return input.validations.every(([validation]) => {
-					return !validation(input.value, inputs)
+					return !validation(input.value, allInputs)
 				})
 			})
 		)
@@ -52,20 +56,32 @@
 		}
 	}}
 >
-	{#each inputs as row}
-		<div class="form__row">
-			{#each row as input}
-				<div>
-					{#if input.type === 'select'}
-						<Select {...input} bind:value={input.value} {inputs} options={input.options || []} />
-					{:else if input.type === 'checkbox'}
-						<Switch {...input} bind:value={input.value} {inputs} />
-					{:else}
-						<Input {...input} bind:value={input.value} {inputs} />
-					{/if}
+	{#each groups as group}
+		<fieldset class="form__group">
+			{#if group.heading}
+				<legend class="form__group-heading">{group.heading}</legend>
+			{/if}
+			{#each group.rows as row}
+				<div class="form__row">
+					{#each row as input}
+						<div>
+							{#if input.type === 'select'}
+								<Select
+									{...input}
+									bind:value={input.value}
+									inputs={allInputs}
+									options={input.options || []}
+								/>
+							{:else if input.type === 'checkbox'}
+								<Switch {...input} bind:value={input.value} inputs={allInputs} />
+							{:else}
+								<Input {...input} bind:value={input.value} inputs={allInputs} />
+							{/if}
+						</div>
+					{/each}
 				</div>
 			{/each}
-		</div>
+		</fieldset>
 	{/each}
 	<button class="button--primary" disabled={!valid || submitting}>
 		{#if submitting}
@@ -84,11 +100,29 @@
 	.form {
 		display: flex;
 		flex-direction: column;
-		& > .form__row {
-			display: flex;
-			& > * {
-				flex-grow: 1;
-			}
+	}
+
+	.form__group {
+		border: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--spacing-unit) * 1);
+	}
+
+	.form__group-heading {
+		font-size: var(--text-base);
+		font-weight: 600;
+		color: var(--theme-text);
+		padding: 0;
+		margin-bottom: calc(var(--spacing-unit) * 1);
+	}
+
+	.form__row {
+		display: flex;
+		& > * {
+			flex-grow: 1;
 		}
 	}
 

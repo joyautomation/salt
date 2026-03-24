@@ -5,7 +5,7 @@
 	import ThemeSwitch from '$lib/components/ThemeSwitch.svelte'
 	import Form from '$lib/components/forms/Form.svelte'
 	import SearchableSelect from '$lib/components/forms/SearchableSelect.svelte'
-	import type { FormInputs } from '$lib/components/forms/types.js'
+	import type { FormGroup } from '$lib/components/forms/types.js'
 	import * as outlineIcons from '$lib/components/icons/outline/index.js'
 	import * as solidIcons from '$lib/components/icons/solid/index.js'
 	import type { Component } from 'svelte'
@@ -32,71 +32,86 @@
 			: iconList.filter((i) => i.name.toLowerCase().includes(iconSearch.toLowerCase()))
 	)
 
-	const contactInputs: FormInputs = $state([
-		[
-			{
-				id: 'name',
-				name: 'name',
-				label: 'Name',
-				type: 'text',
-				value: '',
-				validations: [[(v) => v.trim().length === 0, 'Name is required']]
-			},
-			{
-				id: 'email',
-				name: 'email',
-				label: 'Email',
-				type: 'email',
-				value: '',
-				validations: [
-					[(v) => v.trim().length === 0, 'Email is required'],
-					[(v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email']
+	const contactGroups: FormGroup[] = $state([
+		{
+			heading: 'Contact Info',
+			rows: [
+				[
+					{
+						id: 'name',
+						name: 'name',
+						label: 'Name',
+						type: 'text',
+						value: '',
+						validations: [[(v) => v.trim().length === 0, 'Name is required']]
+					},
+					{
+						id: 'email',
+						name: 'email',
+						label: 'Email',
+						type: 'email',
+						value: '',
+						validations: [
+							[(v) => v.trim().length === 0, 'Email is required'],
+							[(v) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Enter a valid email']
+						]
+					}
+				],
+				[
+					{
+						id: 'subject',
+						name: 'subject',
+						label: 'Subject',
+						type: 'select',
+						value: 'general',
+						validations: [],
+						options: [
+							{ value: 'general', label: 'General Inquiry' },
+							{ value: 'support', label: 'Support' },
+							{ value: 'feedback', label: 'Feedback' }
+						]
+					}
 				]
-			}
-		],
-		[
-			{
-				id: 'subject',
-				name: 'subject',
-				label: 'Subject',
-				type: 'select',
-				value: 'general',
-				validations: [],
-				options: [
-					{ value: 'general', label: 'General Inquiry' },
-					{ value: 'support', label: 'Support' },
-					{ value: 'feedback', label: 'Feedback' }
+			]
+		},
+		{
+			heading: 'Message',
+			rows: [
+				[
+					{
+						id: 'message',
+						name: 'message',
+						label: 'Message',
+						type: 'textarea',
+						value: '',
+						validations: [[(v) => v.trim().length === 0, 'Message is required']]
+					}
 				]
-			}
-		],
-		[
-			{
-				id: 'message',
-				name: 'message',
-				label: 'Message',
-				type: 'textarea',
-				value: '',
-				validations: [[(v) => v.trim().length === 0, 'Message is required']]
-			}
-		],
-		[
-			{
-				id: 'subscribe',
-				name: 'subscribe',
-				label: 'Subscribe to updates',
-				type: 'checkbox',
-				value: 'true',
-				validations: []
-			},
-			{
-				id: 'agree',
-				name: 'agree',
-				label: 'I agree to the terms',
-				type: 'checkbox',
-				value: 'false',
-				validations: [[(v) => v !== 'true', 'You must agree to the terms']]
-			}
-		]
+			]
+		},
+		{
+			heading: 'Preferences',
+			rows: [
+				[
+					{
+						id: 'subscribe',
+						name: 'subscribe',
+						label: 'Subscribe to updates',
+						type: 'checkbox',
+						value: 'true',
+						validations: []
+					},
+					{
+						id: 'agree',
+						name: 'agree',
+						label: 'I agree to the terms',
+						type: 'checkbox',
+						value: 'false',
+						validations: [[(v) => v !== 'true', 'You must agree to the terms']]
+					}
+				]
+			]
+		}
 	])
 
 	let selectedItem = $state('')
@@ -183,7 +198,7 @@
 		{:else if activeTab === 'Forms'}
 			<section>
 				<h2>Form</h2>
-				<Form inputs={contactInputs} action="?/contact" buttonText="Send Message" />
+				<Form groups={contactGroups} action="?/contact" buttonText="Send Message" />
 			</section>
 
 			<section>
