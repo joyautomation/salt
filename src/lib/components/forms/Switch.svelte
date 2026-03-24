@@ -5,9 +5,7 @@
 		id,
 		name,
 		label,
-		value = $bindable('false'),
-		validations,
-		inputs
+		value = $bindable('false')
 	}: InputProps & { inputs?: FormInputs } = $props()
 
 	const checked = $derived(value === 'true')
