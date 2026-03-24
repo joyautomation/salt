@@ -100,6 +100,7 @@
 	.form {
 		display: flex;
 		flex-direction: column;
+		gap: calc(var(--spacing-unit) * 4);
 	}
 
 	.form__group {
@@ -116,7 +117,6 @@
 		font-weight: 600;
 		color: var(--theme-text);
 		padding: 0;
-		margin-bottom: calc(var(--spacing-unit) * 1);
 	}
 
 	.form__row {
