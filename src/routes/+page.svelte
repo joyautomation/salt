@@ -6,22 +6,15 @@
 	import Form from '$lib/components/forms/Form.svelte'
 	import SearchableSelect from '$lib/components/forms/SearchableSelect.svelte'
 	import type { FormGroup } from '$lib/components/forms/types.js'
-	import * as outlineIcons from '$lib/components/icons/outline/index.js'
-	import * as solidIcons from '$lib/components/icons/solid/index.js'
 	import type { Component } from 'svelte'
 
 	const tabs = ['Theme', 'Toast', 'Icons', 'Forms'] as const
 	let activeTab: (typeof tabs)[number] = $state('Theme')
 
 	type IconEntry = { name: string; component: Component<{ size?: string }> }
-	const outlineList: IconEntry[] = Object.entries(outlineIcons).map(([name, component]) => ({
-		name,
-		component: component as Component<{ size?: string }>
-	}))
-	const solidList: IconEntry[] = Object.entries(solidIcons).map(([name, component]) => ({
-		name,
-		component: component as Component<{ size?: string }>
-	}))
+	let outlineList: IconEntry[] = $state([])
+	let solidList: IconEntry[] = $state([])
+	let iconsLoaded = $state(false)
 
 	let iconStyle: 'outline' | 'solid' = $state('outline')
 	let iconSearch = $state('')
@@ -31,6 +24,29 @@
 			? iconList
 			: iconList.filter((i) => i.name.toLowerCase().includes(iconSearch.toLowerCase()))
 	)
+
+	async function loadIcons() {
+		if (iconsLoaded) return
+		const [outline, solid] = await Promise.all([
+			import('$lib/components/icons/outline/index.js'),
+			import('$lib/components/icons/solid/index.js')
+		])
+		outlineList = Object.entries(outline).map(([name, component]) => ({
+			name,
+			component: component as Component<{ size?: string }>
+		}))
+		solidList = Object.entries(solid).map(([name, component]) => ({
+			name,
+			component: component as Component<{ size?: string }>
+		}))
+		iconsLoaded = true
+	}
+
+	$effect(() => {
+		if (activeTab === 'Icons') {
+			loadIcons()
+		}
+	})
 
 	const contactGroups: FormGroup[] = $state([
 		{
@@ -161,7 +177,7 @@
 			</section>
 		{:else if activeTab === 'Icons'}
 			<section>
-				<h2>Icons ({filteredIcons.length})</h2>
+				<h2>Icons {#if iconsLoaded}({filteredIcons.length}){/if}</h2>
 				<div class="icon-controls">
 					<div class="icon-style-toggle">
 						<button
@@ -186,14 +202,18 @@
 						class="icon-search"
 					/>
 				</div>
-				<div class="icon-grid">
-					{#each filteredIcons as icon (icon.name + iconStyle)}
-						<div class="icon-card">
-							<icon.component size="1.5rem" />
-							<span>{icon.name}</span>
-						</div>
-					{/each}
-				</div>
+				{#if !iconsLoaded}
+					<p>Loading icons...</p>
+				{:else}
+					<div class="icon-grid">
+						{#each filteredIcons as icon (icon.name + iconStyle)}
+							<div class="icon-card">
+								<icon.component size="1.5rem" />
+								<span>{icon.name}</span>
+							</div>
+						{/each}
+					</div>
+				{/if}
 			</section>
 		{:else if activeTab === 'Forms'}
 			<section>
